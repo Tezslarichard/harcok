@@ -77,7 +77,12 @@ const fejlec = [
     "Szembenálló felek",
     "Haderő"
 ]
-
+/**
+ * 
+ * @param {Array} fejlec 
+ * @param {HTMLElement} thead 
+ * ez a függvény tablazatom fejlecet generalja minden adatnak kulon cellaja van
+ */
 function fejlecem(fejlec,thead){
     const tr = document.createElement('tr')
     thead.appendChild(tr)
@@ -91,7 +96,12 @@ function fejlecem(fejlec,thead){
     }
 
 }
-
+/**
+ * 
+ * @param {Array} array 
+ * @param {HTMLElement} tbody 
+ * ez a függvény a tablazatot generalja le a tombbol megadott adatokkal
+ */
 function tablazat(array,tbody){
     for(const elem of array){
         const tr = document.createElement('tr')
@@ -130,7 +140,12 @@ function tablazat(array,tbody){
 
 fejlecem(fejlec,thead)  
 tablazat(array,tbody)
-
+/**
+ * 
+ * @param {Array} formtablazat 
+ * 
+ * ezt a fuggvenyt a form generalasahoz hasznalom ugyan azt csinalja ami a htmlbe 
+ */
 function formgeneralas(formtablazat){
     const form1 = document.createElement('form')
     form1.id = 'form'
@@ -227,7 +242,13 @@ form.addEventListener('submit', function(e){
 }
 })
 
-
+/**
+ * 
+ * @param {HTMLElement} htmlelement 
+ * @param {String} errormessage 
+ * @returns {Boolean}
+ * ez a függvény validálja a mezőket ha üres akkor hibát dob
+ */
 function validatefield(htmlelement, errormessage){
     let valid = true
     if(htmlelement.value === ''){
