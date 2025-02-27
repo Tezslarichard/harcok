@@ -28,6 +28,39 @@ const array = [
 
     }
 ]
+
+const formtablazat = [
+
+    {
+        labelfor : "harc_nev",
+        inputtext : "1. Harc neve:",
+        type : "text"
+    },
+    {
+        labelfor : "harcolo1",
+        inputtext : " 1. Harcoló fél:",
+        type : "text"
+    },
+
+    {
+        labelfor : "hadero1",
+        inputtext : " 1. Haderő:",
+        type : "text"
+    },
+
+    {
+        labelfor : "harcolo2",
+        inputtext : " 2. Harcoló fél:",
+        type : "text"
+    },
+
+    {
+        labelfor : "hadero2",
+        inputtext : " 2. Haderő:",
+        type : "text"
+    }
+]
+
 const table = document.createElement('table')
 const thead = document.createElement('thead')
 const tr = document.createElement('tr')
@@ -58,8 +91,6 @@ function fejlecem(fejlec,thead){
     }
 
 }
-
-
 
 function tablazat(array,tbody){
     for(const elem of array){
@@ -100,6 +131,38 @@ function tablazat(array,tbody){
 fejlecem(fejlec,thead)  
 tablazat(array,tbody)
 
+function formgeneralas(formtablazat){
+    const form1 = document.createElement('form')
+    form1.id = 'form'
+    document.body.appendChild(form1)
+
+    for(const elem of formtablazat){
+        const div = document.createElement('div')
+        form1.appendChild(div)
+
+        const label = document.createElement('label')
+        label.htmlFor = elem.labelfor
+        label.innerHTML = elem.inputtext
+        div.appendChild(label)
+
+        const input = document.createElement('input')
+        input.id = elem.labelfor
+        input.type = elem.type
+        div.appendChild(input)
+
+        const error = document.createElement('div')
+        error.className = 'error'
+        div.appendChild(error)
+    }
+
+    const button = document.createElement('button')
+    button.innerHTML = 'Hozzáadás'
+    form1.appendChild(button)
+}
+
+
+formgeneralas(formtablazat)
+
 const form = document.getElementById('form')
 
 form.addEventListener('submit', function(e){
@@ -111,6 +174,38 @@ form.addEventListener('submit', function(e){
     const harcolok2 = document.getElementById('harcolo2')
     const haderok2 = document.getElementById('hadero2')
 
+    const form1 = e.currentTarget
+    const hiba = form1.querySelectorAll('.error')
+    for(const errorhiba of hiba){
+        errorhiba.innerHTML = ""
+    }
+
+
+    let valid = true
+
+    if(!validatefield(harcok, 'Kötelező mező')){
+        valid = false
+    }
+    if(!validatefield(harcolok, 'Kötelező mező')){
+        valid = false
+    }
+    if(!validatefield(haderok, 'Kötelező mező')){
+        valid = false
+    }
+
+    if(harcolok2.value !== '') {
+        if(!validatefield(haderok2, 'Kötelező mező')) {
+            valid = false
+        }
+    }
+    if(haderok2.value !== '') {
+        if(!validatefield(harcolok2, 'Kötelező mező')) {
+            valid = false
+        }
+    }
+    
+
+    if(valid){
     const harcok_value = harcok.value
     const harcolok_value = harcolok.value
     const haderok_value = haderok.value
@@ -124,8 +219,24 @@ form.addEventListener('submit', function(e){
         harcolo2 : harcolok2_value,
         hadero2 : haderok2_value
     }
-
+    
     array.push(new_array)
     tbody.innerHTML = ''
     tablazat(array,tbody)
+    form.reset()
+}
 })
+
+
+function validatefield(htmlelement, errormessage){
+    let valid = true
+    if(htmlelement.value === ''){
+       const parentElement = htmlelement.parentElement
+       let error = parentElement.querySelector('.error')
+       if(error != undefined){
+            error.innerHTML = errormessage
+       }
+       valid = false
+    }
+    return valid
+}
